@@ -4,8 +4,8 @@ import streamlit as st
 import pytesseract
 # Libraries for reading/displaying images
 from PIL import Image
-import cv2
-import matplotlib.pyplot as plt
+# import cv2
+# import matplotlib.pyplot as plt
 # Library for converting pages of a pdf file into images
 import pdf2image
 
