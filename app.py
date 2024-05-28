@@ -17,7 +17,7 @@ import pyperclip
 ### TITLE
 st.title("Basic OCR App")
 ### SOME CONTENT
-st.write("A simple web app for reading scanned documents in pdf or in image format simply drag a file on the upload section for the app to return an output")
+st.write("A simple web app for reading scanned documents in pdf or in image format.\nSimply drag a file on the upload section for the app to return an output")
 st.write("OCR - Optical Character Recognition")
 ### FILE UPLOAD
 uploaded_file  = st.file_uploader("Choose a file that contains scanned image(s) with texts", type=['jpg', 'png', 'pdf'])
@@ -35,8 +35,19 @@ if uploaded_file is not None:
             temp_pdf_path = temp_pdf.name
         # output_str = "Output is expected here!"
         pages = pdf2image.convert_from_path(temp_pdf_path)
-        slider_max_page_val = len(pages)
-        page_no = st.slider("Toggle pages",value=0, max_value=slider_max_page_val)
+        ### Slider Component
+        slider_max_page_val = len(pages) - 1
+        page_no = st.slider("Toggle pages",value=0, max_value=slider_max_page_val, label_visibility="collapsed")
+
+        ### Button Pagination
+        prev, next = st.columns(2, gap="small")
+        with prev:
+            if st.button("prev") and page_no > 0:
+                page_no -= 1
+        with next:
+            if st.button("next") and page_no <= slider_max_page_val:
+                page_no += 1
+
         st.write(f"Page Index: {page_no}")
         output_str = pytesseract.image_to_string(pages[page_no])
         st.image(pages[page_no])
